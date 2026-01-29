@@ -1,0 +1,74 @@
+# Initializing variables as None or empty to handle "Part C" error requirements
+student_info = None  # Will hold the Tuple (Name, ID)
+student_details = {} # Will hold the Dictionary (Course, Year)
+completed_activities = set() # Will hold the Set of activities
+
+# Optional: List for the random activity suggestion feature (Part B)
+possible_suggestions = ["Coding Practice", "Reading Documentation", "Reviewing Git", "Debugging Code"]
+
+def main():
+    # --- Part C: Menu Program that repeats until exit ---
+    while True:
+        print("\n--- Student Activity Tracker ---")
+        print("1) Add student")
+        print("2) Add activity")
+        print("3) Show student details")
+        print("4) Show activities")
+        print("5) Exit")
+        
+        choice = input("Choose: ")
+
+        # Option 1: Add Student Setup
+        if choice == '1':
+            name = input("Enter student name: ")
+            s_id = input("Enter student ID: ")
+            course = input("Enter course name: ")
+            year = input("Enter current year: ")
+            
+            # Storing data in Tuple and Dictionary (Part A & C)
+            student_info = (name, s_id)
+            student_details = {"course": course, "year": year}
+            print(f"Student {name} added successfully!")
+
+        # Option 2: Add Activity with Datetime (Part B)
+        elif choice == '2':
+            activity_name = input("Enter activity name: ")
+            # Using datetime to record the date (Part B)
+            date_added = datetime.date.today()
+            
+            # Sets automatically prevent duplicates
+            completed_activities.add(f"{activity_name} (added on: {date_added})")
+            print(f"Activity added on: {date_added}")
+
+        # Option 3: Show Student Details (Part C - Handling missing info)
+        elif choice == '3':
+            if student_info:
+                print(f"\n--- Profile: {student_info[0]} ({student_info[1]}) ---")
+                print(f"Course: {student_details.get('course')}")
+                print(f"Year: {student_details.get('year')}")
+            else:
+                print("Error: No student information found. Please select Option 1 first.")
+
+        # Option 4: Show Completed Activities (Part C - Handling empty sets)
+        elif choice == '4':
+            print("\n--- Completed Activities ---")
+            if not completed_activities:
+                print("No activities recorded yet.")
+            else:
+                for act in completed_activities:
+                    print(f"- {act}")
+            
+            # Optional Part B: Use random to suggest an activity
+            print(f"\nTip: How about some {random.choice(possible_suggestions)}?")
+
+        # Option 5: Exit
+        elif choice == '5':
+            print("Exiting program...")
+            break
+
+        # Error handling for wrong input (Part C)
+        else:
+            print("Invalid selection. Please enter a number between 1 and 5.")
+
+if __name__ == "__main__":
+    main()
